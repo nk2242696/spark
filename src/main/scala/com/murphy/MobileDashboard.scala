@@ -1,14 +1,12 @@
 package com.murphy
 
-import org.apache.spark.sql.{DataFrame, DataFrameNaFunctions, SaveMode, SparkSession}
 import org.apache.spark.sql.functions._
+import org.apache.spark.sql.{SaveMode, SparkSession}
 
 object MobileDashboard {
 
-
-
-  import org.apache.spark.sql.functions.{col, lit, to_date, udf}
-  import org.apache.spark.sql.{DataFrame, SQLContext}
+  import org.apache.spark.sql.DataFrame
+  import org.apache.spark.sql.functions.{col, udf}
   def main(args: Array[String]): Unit = {
     
     val spark = SparkSession.builder()
@@ -16,10 +14,6 @@ object MobileDashboard {
       .appName("Assignment")
       .enableHiveSupport()
       .getOrCreate()
-
-
-
-
 
     val NANRemover= udf(f = (str: String) => {
       if (str==null || str=="" ) 
@@ -37,17 +31,6 @@ object MobileDashboard {
     val transformUppercase= udf(f = (str: String) => {
       if (str != null) {
         str.toUpperCase
-      }
-      else
-      {
-        str
-      }
-    })
-
-    val yearExtractor= udf(f = (str: String) => {
-      if (str != null && str.contains("/")) {
-        val year=str.split("/")(2)
-        year
       }
       else
       {
